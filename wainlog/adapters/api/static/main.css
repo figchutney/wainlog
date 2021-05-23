@@ -1,0 +1,370 @@
+/* -------------------- */
+/* VARIABLES */
+/* -------------------- */
+
+:root {
+  --space-tiny: 0.1875rem;
+  --space-small: 0.375rem;
+  --space-medium: 0.8125rem;
+  --space-large: 1.625rem;
+  --space-huge: 3.25rem;
+  --font-size-tiny: 0.8125rem;
+  --font-size-small: 1rem;
+  --font-size-medium: 1.25rem;
+  --font-size-large: 1.625rem;
+  --font-size-huge: 2rem;
+  --font-size-massive: 2.5625rem;
+  --font-size-enormous: 3.25rem;
+  --font-size-gigantic: 6rem;
+}
+
+@media (min-width: 731px) {
+  :root {
+    --space-tiny: 0.3rem;
+    --space-small: 0.65rem;
+    --space-medium: 1.3rem;
+    --space-large: 2.6rem;
+    --space-huge: 5.3rem;
+    --font-size-tiny: 0.8rem;
+    --font-size-small: 1rem;
+    --font-size-medium: 1.3rem;
+    --font-size-large: 1.6rem;
+    --font-size-huge: 2.05rem;
+    --font-size-massive: 2.6rem;
+    --font-size-enormous: 3.3rem;
+    --font-size-gigantic: 7rem;
+  }
+  html,
+  body,
+  button {
+    font-size: 24px;
+  }
+}
+
+@media (min-width: 1695px) {
+  :root {
+    --space-tiny: 0.384615rem;
+    --space-small: 0.769231rem;
+    --space-medium: 1.57692rem;
+    --space-large: 3.19231rem;
+    --space-huge: 6.46154rem;
+    --font-size-tiny: 0.769231rem;
+    --font-size-small: 1rem;
+    --font-size-medium: 1.23077rem;
+    --font-size-large: 1.57692rem;
+    --font-size-huge: 2rem;
+    --font-size-massive: 2.53846rem;
+    --font-size-enromous: 3.19231rem;
+    --font-size-gigantic: 8rem;
+  }
+  html,
+  body,
+  button {
+    font-size: 30px;
+  }
+}
+
+html,
+body,
+div,
+span,
+dl,
+dt,
+ul,
+label,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+form,
+fieldset,
+table,
+thead,
+tr,
+td,
+th,
+button,
+input,
+nav {
+  vertical-align: baseline;
+  margin: 0px;
+  padding: 0px;
+  border-width: 0px;
+  border-style: initial;
+  border-color: initial;
+  border-image: initial;
+  font-family: "Roboto Mono", monospace;
+  color: darkslategrey;
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-weight: 400;
+  line-height: 1.25;
+}
+h1 {
+  font-size: var(--font-size-enormous);
+}
+h2 {
+  font-size: var(--font-size-massive);
+}
+h3 {
+  font-size: var(--font-size-huge);
+}
+h4 {
+  font-size: var(--font-size-large);
+}
+h5 {
+  font-size: var(--font-size-medium);
+}
+p {
+  font-size: var(--font-size-small);
+}
+ul {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  font-size: var(--font-size-tiny);
+}
+body {
+  background-color: white;
+}
+
+input,
+button {
+  background-color: transparent;
+  outline: none;
+  border: none;
+}
+
+nav {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: var(--space-tiny);
+  max-width: 100%;
+  padding: var(--space-small) var(--space-medium);
+  text-align: center;
+}
+
+nav a {
+  display: flex;
+  padding: var(--space-small);
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+#nav-login, #nav-logout {
+  color: darkslategrey;
+}
+
+main {
+  margin-bottom: var(--space-medium);
+  margin-right: var(--space-medium);
+  margin-left: var(--space-medium);
+}
+
+.table-container {
+  max-height: none;
+  overflow-x: auto;
+  margin-bottom: var(--space-medium);
+}
+.table-container table {
+  border-spacing: 0;
+  width: 100%;
+}
+.table-container th {
+  font-weight: bold;
+  color: white;
+}
+.table-container td {
+  color: darkslategrey;
+}
+.table-container td,
+.table-container th,
+.table-container input {
+  text-align: left;
+  padding: var(--space-small);
+  font-size: var(--font-size-tiny);
+}
+
+.login, .register {
+  margin: 0;
+}
+.login-form, .register-form {
+  display: grid;
+  width: 100vw;
+  height: 100vh;
+}
+.login-form, .login-form input {
+  font-size: var(--font-size-enormous);
+}
+.register-form, .register-form input {
+  font-size: var(--font-size-large);
+}
+.login-form input, .register-form input {
+  max-width: 100%;
+  height: 100%;
+  width: 100%;
+  font-style: italic;
+}
+.login-form, .register-form {
+  grid-template-rows: repeat(4, 1fr 2fr);
+  grid-template-columns: minmax(0, 1fr) 1fr;
+}
+.login-form div,
+.login-form a,
+.register-form div,
+.register-form a {
+  display: flex;
+  padding: 0 var(--space-small);
+  justify-content: left;
+  align-items: center;
+  max-width: 100%;
+}
+#login-submit,
+#login-register,
+#register-submit,
+#register-login {
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+#login-submit,
+#register-submit {
+  background-color: darkslategrey;
+}
+#login-register,
+#register-login {
+  background-color: darkseagreen;
+}
+#login-submit input,
+#register-submit input {
+  color: white;
+  font-size: var(--font-size-gigantic);
+  cursor: pointer;
+  font-style: normal;
+}
+#login-register,
+#register-login {
+  color: white;
+  font-size: var(--font-size-huge);
+}
+
+#login-username-label {
+  grid-row: 1/3;
+  grid-column: 1;
+}
+#login-username {
+  grid-row: 3/5;
+  grid-column: 1;
+}
+#login-password-label {
+  grid-row: 5/7;
+  grid-column: 1;
+}
+#login-password {
+  grid-row: 7/9;
+  grid-column: 1;
+}
+
+#register-username-label {
+  grid-row: 1;
+  grid-column: 1;
+}
+#register-username {
+  grid-row: 2;
+  grid-column: 1;
+}
+#register-email-label {
+  grid-row: 3;
+  grid-column: 1;
+}
+#register-email {
+  grid-row: 4;
+  grid-column: 1;
+}
+#register-password-label {
+  grid-row: 5;
+  grid-column: 1;
+}
+#register-password {
+  grid-row: 6;
+  grid-column: 1;
+}
+#register-password-repeat-label {
+  grid-row: 7;
+  grid-column: 1;
+}
+#register-password-repeat {
+  grid-row: 8;
+  grid-column: 1;
+}
+
+#login-register,
+#register-login {
+  grid-row: 1/4;
+  grid-column: 2;
+}
+#login-submit,
+#register-submit {
+  grid-row: 4/9;
+  grid-column: 2;
+}
+
+
+.EASTERN th,
+#nav-EASTERN {
+  background: yellowgreen;
+}
+.EASTERN h2 {
+  color: yellowgreen;
+}
+.FAR_EASTERN th,
+#nav-FAR_EASTERN {
+  background: crimson;
+}
+.FAR_EASTERN h2 {
+  color: crimson;
+}
+.CENTRAL th,
+#nav-CENTRAL {
+  background: dodgerblue;
+}
+.CENTRAL h2 {
+  color: dodgerblue;
+}
+.SOUTHERN th,
+#nav-SOUTHERN {
+  background: darkorange;
+}
+.SOUTHERN h2 {
+  color: darkorange;
+}
+.NORTHERN th,
+#nav-NORTHERN {
+  background: saddlebrown;
+}
+.NORTHERN h2 {
+  color: saddlebrown;
+}
+.NORTH_WESTERN th,
+#nav-NORTH_WESTERN {
+  background: gold;
+}
+.NORTH_WESTERN h2 {
+  color: gold;
+}
+.WESTERN th,
+#nav-WESTERN {
+  background: limegreen;
+}
+.WESTERN h2 {
+  color: limegreen;
+}

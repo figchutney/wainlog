@@ -1,0 +1,66 @@
+{% extends "base.html" %}{% block content %}
+  <nav>
+    {% for book, fells in fells_by_book.items() %}
+      <a href="#{{ book.value }}" id="nav-{{ book.value }}">{{ book|beautify_enum }}</a>
+    {% endfor %}
+    {% if current_user.is_anonymous %}
+      <a href="{{ url_for('wainlog.login') }}" id="nav-login">Log In</a>
+    {% else %}
+      <a href="{{ url_for('wainlog.logout') }}" id="nav-logout">Log Out</a>
+    {% endif %}
+  </nav>
+  <main class="content">
+    {% for book, fells in fells_by_book.items() %}
+      <div id="{{ book.value }}" class="{{ book.value }} table-container">
+        <h2>{{ book|beautify_enum }}</h2>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Height Rank</th>
+            <th>Height (m)</th>
+            <th>Height (f)</th>
+            <th>OS Grid Reference</th>
+            <th>Rank in Book</th>
+            {% if current_user.is_authenticated %}
+              <th>Summit Date</th>
+              <th>Submit</th>
+            {% endif %}
+          </tr>
+          {% for fell in fells %}
+          <tr>
+            <td><strong>{{ fell.display }}</strong></td>
+            <td>{{ fell.height_rank }}</td>
+            <td>{{ fell.height_m }}</td>
+            <td>{{ fell.height_f }}</td>
+            <td>{{ fell.os_grid_reference }}</td>
+            <td>{{ fell.rank_in_book }}</td>
+            {% if current_user.is_authenticated %}
+              {% set ns = namespace(summit_date=None) %}
+              {% for event in summit_events %}
+                {% if fell.name == event.fell_name %}
+                  {% set ns.summit_date = event.summit_date %}
+                {% endif %}
+              {% endfor %}
+                {% if ns.summit_date is none %}
+                  <form class="add-summit-form" action="" method="POST">
+                    {{ add_summit_form.csrf_token }}
+                    {{ add_summit_form.fell_name(value=fell.name.value) }}
+                    <td><div id="add-summit-date">{{ add_summit_form.date() }}</div></td>
+                    <td><div id="add-summit-submit">{{ add_summit_form.submit() }}</div></td>
+                  </form>
+                {% else %}
+                  <form class="delete-summit-form" action="" method="POST">
+                    {{ delete_summit_form.csrf_token() }}
+                    {{ delete_summit_form.fell_name(value=fell.name.value) }}
+                    <td>{{ ns.summit_date }}</td>
+                    <td><div id="delete-summit-submit">{{ delete_summit_form.submit() }}</div></td>
+                  </form>
+                {% endif %}
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+    {% endfor %}
+  </main>
+{% endblock %}
