@@ -1,0 +1,6 @@
+alembic
+flask
+flask-login
+gunicorn
+psycopg2-binary
+sqlalchemy

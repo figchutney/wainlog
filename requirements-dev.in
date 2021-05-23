@@ -1,0 +1,14 @@
+bandit
+black
+beautifulsoup4
+bs4
+email-validator
+flake8
+flask-wtf
+isort
+mypy
+pip-tools
+pytest
+pytest-cov
+python-dotenv
+safety
