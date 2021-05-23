@@ -4,6 +4,8 @@ A simple place to keep track of which Wainright's you've climbed in the Lake Dis
 
 This app is currently a work in progress, and is not production ready (I've not written tests yet, or cleaned up some mucky typing). However, you can still run a local instance of the app nicely - see instructions below on getting set up 🤸‍♀️
 
+https://user-images.githubusercontent.com/52138939/119268061-150ed600-bbe9-11eb-896b-9b4acd4a9b9e.mov
+
 - [`wainlog` ⛰](#wainlog-)
   - [1 - Description](#1---description)
   - [2 - Setup](#2---setup)
