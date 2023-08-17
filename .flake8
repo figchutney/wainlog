@@ -1,0 +1,10 @@
+[flake8]
+count = true
+exclude =
+    .env
+    venv
+    migrations
+max-complexity = 7
+max-line-length = 79
+show-source = true
+statistics = true
