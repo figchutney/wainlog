@@ -46,13 +46,13 @@ rm -rf .env; python -m venv .env; source .env/bin/activate; python -m pip instal
 Create a new database for `wainlog`:
 
 ```zsh
-psql postgres -c 'CREATE DATABSE wainlog'
+psql postgres -c 'CREATE DATABASE wainlog'
 ```
 
 Migrate the database to the latest version:
 
 ```zsh
-PYTHONPATH=. ALEMBIC_DB_URL=postgresql:///industry_ops alembic upgrade head
+PYTHONPATH=. ALEMBIC_DB_URL=postgresql:///wainlog alembic upgrade head
 ```
 
 ### 2.3 - Config
