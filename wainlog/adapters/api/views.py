@@ -29,49 +29,51 @@ def root() -> str | Response:
     fells_by_book = view_functions.get_fells_by_book(session=g.session)
     summit_events: list[types.SummitEvent] | None = None
 
-    if current_user.is_authenticated:
-        add_summit_form = forms.AddSummitEvent()
-        delete_summit_form = forms.DeleteSummitEvent()
-
-        if add_summit_form.validate_on_submit():
-            persister.add_summit_event(
-                session=g.session,
-                user_id=current_user.get_id(),
-                fell_name=types.FellName(add_summit_form.fell_name.data),
-                summit_date=add_summit_form.date.data,
-            )
-            g.session.commit()
-            summit_events = persister.get_summit_events_for_user(
-                session=g.session, username=current_user.username
-            )
-            return redirect(url_for("wainlog.root"))
-        elif delete_summit_form.validate_on_submit():
-            persister.delete_summit_event(
-                session=g.session,
-                user_id=current_user.get_id(),
-                fell_name=types.FellName(delete_summit_form.fell_name.data),
-            )
-            g.session.commit()
-            summit_events = persister.get_summit_events_for_user(
-                session=g.session, username=current_user.username
-            )
-            return redirect(url_for("wainlog.root"))
-
-        summit_events = persister.get_summit_events_for_user(
-            session=g.session, username=current_user.username
-        )
+    if not current_user.is_authenticated:
         return render_template(
             "root.html",
             fells_by_book=fells_by_book,
             summit_events=summit_events,
-            add_summit_form=add_summit_form,
-            delete_summit_form=delete_summit_form,
         )
 
+    # From here onwards, we know the user is logged in...
+
+    add_summit_form = forms.AddSummitEvent()
+    delete_summit_form = forms.DeleteSummitEvent()
+
+    if add_summit_form.validate_on_submit():
+        persister.add_summit_event(
+            session=g.session,
+            user_id=current_user.get_id(),
+            fell_name=types.FellName(add_summit_form.fell_name.data),
+            summit_date=add_summit_form.date.data,
+        )
+        g.session.commit()
+        summit_events = persister.get_summit_events_for_user(
+            session=g.session, username=current_user.username
+        )
+        return redirect(url_for("wainlog.root"))
+    elif delete_summit_form.validate_on_submit():
+        persister.delete_summit_event(
+            session=g.session,
+            user_id=current_user.get_id(),
+            fell_name=types.FellName(delete_summit_form.fell_name.data),
+        )
+        g.session.commit()
+        summit_events = persister.get_summit_events_for_user(
+            session=g.session, username=current_user.username
+        )
+        return redirect(url_for("wainlog.root"))
+
+    summit_events = persister.get_summit_events_for_user(
+        session=g.session, username=current_user.username
+    )
     return render_template(
         "root.html",
         fells_by_book=fells_by_book,
         summit_events=summit_events,
+        add_summit_form=add_summit_form,
+        delete_summit_form=delete_summit_form,
     )
 
 
