@@ -4,7 +4,7 @@
       <a href="#{{ book.value }}" id="nav-{{ book.value }}">{{ book|beautify_enum }}</a>
     {% endfor %}
     {% if current_user.is_anonymous %}
-      <a href="{{ url_for('wainlog.login') }}" id="nav-login">Log In</a>
+      <a href="{{ url_for('wainlog.oauth2_authorize', provider='google') }}" id="nav-login">Log In</a>
     {% else %}
       <a href="{{ url_for('wainlog.logout') }}" id="nav-logout">Log Out</a>
     {% endif %}

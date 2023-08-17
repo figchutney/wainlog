@@ -1,7 +1,9 @@
+import uuid
 from datetime import date, datetime
 
 from flask_login import UserMixin
-from sqlalchemy import ForeignKey, types
+from sqlalchemy import ForeignKey, func, types
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import (
     DeclarativeBase,
     Mapped,
@@ -9,7 +11,6 @@ from sqlalchemy.orm import (
     mapped_column,
     relationship,
 )
-from werkzeug.security import check_password_hash, generate_password_hash
 
 from ...core.types import Book, FellName
 
@@ -21,8 +22,12 @@ class Base(MappedAsDataclass, DeclarativeBase):
 class User(UserMixin, Base, kw_only=True):
     __tablename__ = "user"
 
-    id: Mapped[int] = mapped_column(
-        types.Integer(), primary_key=True, init=False
+    id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True),
+        primary_key=True,
+        server_default=func.gen_random_uuid(),
+        default=uuid.uuid4,
+        init=False,
     )
     username: Mapped[str] = mapped_column(
         types.String(64),
@@ -36,16 +41,12 @@ class User(UserMixin, Base, kw_only=True):
         unique=True,
         nullable=False,
     )
-    password_hash: Mapped[str] = mapped_column(
-        types.String(128),
-        nullable=False,
-        init=False,
-    )
     created_timestamp: Mapped[datetime] = mapped_column(
-        types.DateTime(timezone=True),
+        types.DateTime,
         index=True,
         nullable=False,
-        default=datetime.utcnow,
+        default=None,
+        server_default=func.now(),
     )
 
     summit_events: Mapped[list["SummitEvent"]] = relationship(
@@ -55,19 +56,15 @@ class User(UserMixin, Base, kw_only=True):
         default_factory=list,
     )  # TODO: Set `lazy="raise"`
 
-    def set_password(self, password: str) -> None:
-        self.password_hash = generate_password_hash(password)
-
-    def check_password(self, password: str) -> bool:
-        return check_password_hash(self.password_hash, password)
-
 
 class Fell(Base, kw_only=True):
     __tablename__ = "fell"
 
-    id: Mapped[int] = mapped_column(
-        types.Integer(),
+    id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True),
         primary_key=True,
+        server_default=func.gen_random_uuid(),
+        default=uuid.uuid4,
     )
     name: Mapped[FellName] = mapped_column(
         types.Enum(FellName),
@@ -107,13 +104,13 @@ class Fell(Base, kw_only=True):
 class SummitEvent(Base, kw_only=True):
     __tablename__ = "summit_event"
 
-    user_id: Mapped[int] = mapped_column(
-        types.Integer(),
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True),
         ForeignKey("user.id"),
         primary_key=True,
     )
-    fell_id: Mapped[int] = mapped_column(
-        types.Integer(),
+    fell_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True),
         ForeignKey("fell.id"),
         primary_key=True,
     )
@@ -122,8 +119,9 @@ class SummitEvent(Base, kw_only=True):
         nullable=False,
     )
     created_timestamp: Mapped[datetime] = mapped_column(
-        types.DateTime(timezone=True),
-        nullable=False,
+        types.DateTime,
         index=True,
-        default=datetime.utcnow,
+        nullable=False,
+        default=None,
+        server_default=func.now(),
     )

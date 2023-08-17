@@ -147,6 +147,10 @@ sqlalchemy==2.0.20
     #   alembic
 stevedore==5.1.0
     # via bandit
+types-requests==2.31.0.2
+    # via -r -
+types-urllib3==1.26.25.14
+    # via types-requests
 typing-extensions==4.7.1
     # via
     #   alembic
