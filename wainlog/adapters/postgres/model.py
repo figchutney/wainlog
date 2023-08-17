@@ -1,7 +1,9 @@
+import uuid
 from datetime import date, datetime
 
 from flask_login import UserMixin
-from sqlalchemy import ForeignKey, types
+from sqlalchemy import ForeignKey, func, types
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import (
     DeclarativeBase,
     Mapped,
@@ -21,8 +23,12 @@ class Base(MappedAsDataclass, DeclarativeBase):
 class User(UserMixin, Base, kw_only=True):
     __tablename__ = "user"
 
-    id: Mapped[int] = mapped_column(
-        types.Integer(), primary_key=True, init=False
+    id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True),
+        primary_key=True,
+        server_default=func.gen_random_uuid(),
+        default=uuid.uuid4,
+        init=False,
     )
     username: Mapped[str] = mapped_column(
         types.String(64),
@@ -66,8 +72,11 @@ class Fell(Base, kw_only=True):
     __tablename__ = "fell"
 
     id: Mapped[int] = mapped_column(
-        types.Integer(),
+    id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True),
         primary_key=True,
+        server_default=func.gen_random_uuid(),
+        default=uuid.uuid4,
     )
     name: Mapped[FellName] = mapped_column(
         types.Enum(FellName),
@@ -107,13 +116,13 @@ class Fell(Base, kw_only=True):
 class SummitEvent(Base, kw_only=True):
     __tablename__ = "summit_event"
 
-    user_id: Mapped[int] = mapped_column(
-        types.Integer(),
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True),
         ForeignKey("user.id"),
         primary_key=True,
     )
-    fell_id: Mapped[int] = mapped_column(
-        types.Integer(),
+    fell_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True),
         ForeignKey("fell.id"),
         primary_key=True,
     )

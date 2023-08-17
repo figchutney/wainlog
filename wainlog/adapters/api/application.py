@@ -1,4 +1,5 @@
 import enum
+import uuid
 from typing import cast
 
 from flask import Flask, g
@@ -42,7 +43,7 @@ def create_app(config: Config | None = None) -> Flask:
     login_manager.login_view = "login"
 
     @login_manager.user_loader
-    def load_user(id: int) -> User | None:
+    def load_user(id: uuid.UUID) -> User | None:
         return persister.get_user_db_from_id(session=g.session, id=id)
 
     @app.template_filter("beautify_enum")
