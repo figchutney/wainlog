@@ -1,7 +1,7 @@
 from flask import g
 from flask_wtf import FlaskForm
 from wtforms import HiddenField, PasswordField, StringField, SubmitField
-from wtforms.fields.html5 import DateField
+from wtforms.fields import DateField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 
 from ..postgres import persister

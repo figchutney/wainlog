@@ -33,8 +33,8 @@ A focus has been kept on keeping the app clean and simple to use, with no unnece
 ### 2.1 - Basics
 
 - clone the repo
-- make sure you're using Python 3.8 ([asdf](https://asdf-vm.com/#/) is good for managing multiple versions)
-- [install Postgres11](https://formulae.brew.sh/formula/postgresql@9.5#default) (`brew install postgresql@11 should do the trick)
+- make sure you're using Python 3.11 ([asdf](https://asdf-vm.com/#/) is good for managing multiple versions)
+- [install Postgres14](https://formulae.brew.sh/formula/postgresql@14) (`brew install postgresql@14 should do the trick)
 - create a virtual environment and install requirements from `requirements-dev.txt` - with the project as my current working directory, I tend to always just do:
 
 ```zsh
@@ -123,7 +123,7 @@ PYTHONPATH=. ALEMBIC_DB_URL=postgresql:///wainlog alembic upgrade head
 
 Whenever you push a new commit, the `CI` GitHub action (defined in `.github/workflows/main.yml`) will run, which:
 
-- uses Python 3.8
+- uses Python 3.11
 - installs dependences from `requirements-dev.txt`
 - checks imports with `isort`
 - checks formatting with `black`
@@ -146,4 +146,4 @@ Heroku will be hooked up with the GitHub repo so that merges to `main` trigger a
 The deployment is configured with two files in the root directory of the project:
 
 - `Procfile` (runs the app with `gunicorn`)
-- `runtime.txt` (tells Heroku to use Python 3.8)
+- `runtime.txt` (tells Heroku to use Python 3.11)
