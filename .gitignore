@@ -3,6 +3,7 @@
 .vscode
 wainlog-secrets.json
 wainlog/parser/
+*.pyc
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
