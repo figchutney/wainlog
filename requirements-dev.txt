@@ -128,7 +128,9 @@ python-dotenv==1.0.0
 pyyaml==6.0.1
     # via bandit
 requests==2.31.0
-    # via safety
+    # via
+    #   -r -
+    #   safety
 rich==13.5.2
     # via bandit
 ruamel-yaml==0.17.32
