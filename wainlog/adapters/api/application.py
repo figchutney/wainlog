@@ -19,7 +19,18 @@ def create_app(config: Config | None = None) -> Flask:
     if config is None:
         config = get_config()
 
+    # TODO: Is this better than just using `Config` when it's needed?
     app.config["DB_URL"] = config.DB_URL
+    app.config["GOOGLE_OAUTH_CLIENT_ID"] = config.GOOGLE_OAUTH_CLIENT_ID
+    app.config[
+        "GOOGLE_OAUTH_CLIENT_SECRET"
+    ] = config.GOOGLE_OAUTH_CLIENT_SECRET
+    app.config[
+        "GOOGLE_OAUTH_AUTHORIZE_URL"
+    ] = config.GOOGLE_OAUTH_AUTHORIZE_URL
+    app.config["GOOGLE_OAUTH_TOKEN_URL"] = config.GOOGLE_OAUTH_TOKEN_URL
+    app.config["GOOGLE_OAUTH_USERINFO_URL"] = config.GOOGLE_OAUTH_USERINFO_URL
+    app.config["GOOGLE_OAUTH_SCOPES"] = config.GOOGLE_OAUTH_SCOPES
     app.config["SECRET_KEY"] = config.SECRET_KEY
 
     engine = create_engine(
