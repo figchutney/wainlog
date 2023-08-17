@@ -3,7 +3,7 @@ from pathlib import Path
 import setuptools
 
 
-def parse_requirements(filename):
+def parse_requirements(filename: str) -> list[str]:
     with open(Path(__name__).parent / filename) as f:
         return [line for line in f.readlines() if line[0] not in ["-", "#"]]
 

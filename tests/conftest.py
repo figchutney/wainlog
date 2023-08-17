@@ -1,15 +1,17 @@
+from typing import Iterator
+
 import pytest
 from flask.testing import FlaskClient
 
-from wainlog import wainlog
+from wainlog.app import app
 
 
 @pytest.fixture
-def client() -> FlaskClient:
-    wainlog.app.config["DEBUG"] = True
-    wainlog.app.config["TESTING"] = True
-    wainlog.app.config["PROPAGATE_EXCEPTIONS"] = False
-    wainlog.app.config["PRESERVE_CONTEXT_ON_EXCEPTION"] = False
+def client() -> Iterator[FlaskClient]:
+    app.config["DEBUG"] = True
+    app.config["TESTING"] = True
+    app.config["PROPAGATE_EXCEPTIONS"] = False
+    app.config["PRESERVE_CONTEXT_ON_EXCEPTION"] = False
 
-    with wainlog.app.test_client() as client:
+    with app.test_client() as client:
         yield client

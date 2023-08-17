@@ -1,7 +1,6 @@
-from typing import Any, List, Optional
-
 from flask import Blueprint, flash, g, redirect, render_template, url_for
 from flask_login import current_user, login_user, logout_user
+from werkzeug import Response
 
 from ...core import types
 from ..postgres import model, persister
@@ -11,13 +10,11 @@ bp = Blueprint(name="wainlog", import_name=__name__, url_prefix="/")
 
 
 @bp.route("/", methods=["GET", "POST"])
-def root() -> Any:
-
+def root() -> str | Response:
     fells_by_book = view_functions.get_fells_by_book(session=g.session)
-    summit_events: Optional[List[types.SummitEvent]] = None
+    summit_events: list[types.SummitEvent] | None = None
 
     if current_user.is_authenticated:
-
         add_summit_form = forms.AddSummitEvent()
         delete_summit_form = forms.DeleteSummitEvent()
 
@@ -64,8 +61,7 @@ def root() -> Any:
 
 
 @bp.route("/login", methods=["GET", "POST"])
-def login():
-
+def login() -> Response | str:
     if current_user.is_authenticated:
         return redirect(url_for("wainlog.root"))
 
@@ -87,23 +83,24 @@ def login():
 
 
 @bp.route("/logout")
-def logout():
-
+def logout() -> Response:
     logout_user()
 
     return redirect(url_for("wainlog.root"))
 
 
 @bp.route("/register", methods=["GET", "POST"])
-def register():
-
+def register() -> Response | str:
     if current_user.is_authenticated:
         return redirect(url_for("root"))
 
     form = forms.Register()
 
     if form.validate_on_submit():
-        user = model.User(username=form.username.data, email=form.email.data)
+        user = model.User(
+            username=form.username.data,
+            email=form.email.data,
+        )
         user.set_password(form.password.data)
         persister.add_user(session=g.session, user=user)
         g.session.commit()

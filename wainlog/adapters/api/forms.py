@@ -8,21 +8,37 @@ from ..postgres import persister
 
 
 class Login(FlaskForm):
-    username = StringField("Username", validators=[DataRequired()])
-    password = PasswordField("Password", validators=[DataRequired()])
+    username = StringField(
+        "Username",
+        validators=[DataRequired()],
+    )
+    password = PasswordField(
+        "Password",
+        validators=[DataRequired()],
+    )
     submit = SubmitField("Go!")
 
 
 class Register(FlaskForm):
-    username = StringField("Username", validators=[DataRequired()])
-    email = StringField("Email", validators=[DataRequired(), Email()])
-    password = PasswordField("Password", validators=[DataRequired()])
+    username = StringField(
+        "Username",
+        validators=[DataRequired()],
+    )
+    email = StringField(
+        "Email",
+        validators=[DataRequired(), Email()],
+    )
+    password = PasswordField(
+        "Password",
+        validators=[DataRequired()],
+    )
     password_repeat = PasswordField(
-        "Repeat Password", validators=[DataRequired(), EqualTo("password")]
+        "Repeat Password",
+        validators=[DataRequired(), EqualTo("password")],
     )
     submit = SubmitField("Go!")
 
-    def validate_username(self, username: str) -> None:
+    def validate_username(self, username: StringField) -> None:
         if (
             persister.get_user_db_from_username(
                 session=g.session, username=username.data
@@ -31,7 +47,7 @@ class Register(FlaskForm):
         ):
             raise ValidationError("That username is unavailable :'(")
 
-    def validate_email(self, email: str) -> None:
+    def validate_email(self, email: StringField) -> None:
         if (
             persister.get_user_db_from_email(
                 session=g.session, email=email.data

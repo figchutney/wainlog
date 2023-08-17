@@ -1,5 +1,5 @@
 import datetime
-from typing import List
+from typing import cast
 
 from sqlalchemy.orm import Session
 
@@ -12,8 +12,10 @@ from .convertors import fell_db_to_app
 #######
 
 
-def get_user_db_from_username(session: Session, username: str) -> model.User:
-
+def get_user_db_from_username(
+    session: Session,
+    username: str,
+) -> model.User | None:
     return (
         session.query(model.User)
         .filter(model.User.username == username)
@@ -21,8 +23,10 @@ def get_user_db_from_username(session: Session, username: str) -> model.User:
     )
 
 
-def get_user_db_from_email(session: Session, email: str) -> model.User:
-
+def get_user_db_from_email(
+    session: Session,
+    email: str,
+) -> model.User | None:
     return (
         session.query(model.User)
         .filter(model.User.email == email)
@@ -30,13 +34,14 @@ def get_user_db_from_email(session: Session, email: str) -> model.User:
     )
 
 
-def get_user_db_from_id(session: Session, id: int) -> model.User:
-
+def get_user_db_from_id(
+    session: Session,
+    id: int,
+) -> model.User | None:
     return session.query(model.User).filter(model.User.id == id).one_or_none()
 
 
-def get_all_fells(session: Session) -> List[types.Fell]:
-
+def get_all_fells(session: Session) -> list[types.Fell]:
     fells = session.query(model.Fell).all()
 
     return [fell_db_to_app(fell=fell) for fell in fells]
@@ -55,8 +60,7 @@ def get_fell_id_from_name(session: Session, fell_name: types.FellName) -> int:
 
 def get_summit_events_for_user(
     session: Session, username: str
-) -> List[types.SummitEvent]:
-
+) -> list[types.SummitEvent]:
     summit_events = (
         session.query(
             model.User.username,
@@ -92,7 +96,6 @@ def add_summit_event(
     fell_name: types.FellName,
     summit_date: datetime.date,
 ) -> None:
-
     fell_id = get_fell_id_from_name(session=session, fell_name=fell_name)
 
     session.add(
@@ -114,7 +117,6 @@ def delete_summit_event(
     user_id: int,
     fell_name: types.FellName,
 ) -> None:
-
     fell_id = get_fell_id_from_name(session=session, fell_name=fell_name)
     summit_event = session.get(model.SummitEvent, (user_id, fell_id))
 

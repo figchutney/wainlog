@@ -1,13 +1,11 @@
-from typing import Dict, List
-
 from sqlalchemy.orm import Session
 
 from ...core import types
 from ..postgres import persister
 
 
-def get_fells_by_book(session: Session) -> Dict[types.Book, List[types.Fell]]:
-    fells_by_book = {
+def get_fells_by_book(session: Session) -> dict[types.Book, list[types.Fell]]:
+    fells_by_book: dict[types.Book, list[types.Fell]] = {
         types.Book.EASTERN: [],
         types.Book.FAR_EASTERN: [],
         types.Book.CENTRAL: [],
