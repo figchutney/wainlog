@@ -1,70 +1,127 @@
-from datetime import datetime
+from datetime import date, datetime
 
 from flask_login import UserMixin
-from sqlalchemy import Column, ForeignKey, types
-from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy import ForeignKey, types
+from sqlalchemy.orm import (
+    DeclarativeBase,
+    Mapped,
+    MappedAsDataclass,
+    mapped_column,
+    relationship,
+)
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from ...core.types import Book, FellName
 
-Base = declarative_base()
+
+class Base(MappedAsDataclass, DeclarativeBase):
+    pass
 
 
-class User(UserMixin, Base):
-
+class User(UserMixin, Base, kw_only=True):
     __tablename__ = "user"
 
-    id = Column(types.Integer(), primary_key=True)
-    username = Column(
-        types.String(64), index=True, unique=True, nullable=False
+    id: Mapped[int] = mapped_column(
+        types.Integer(), primary_key=True, init=False
     )
-    email = Column(types.String(120), index=True, unique=True, nullable=False)
-    password_hash = Column(types.String(128), nullable=False)
-    created_timestamp = Column(
+    username: Mapped[str] = mapped_column(
+        types.String(64),
+        index=True,
+        unique=True,
+        nullable=False,
+    )
+    email: Mapped[str] = mapped_column(
+        types.String(120),
+        index=True,
+        unique=True,
+        nullable=False,
+    )
+    password_hash: Mapped[str] = mapped_column(
+        types.String(128),
+        nullable=False,
+        init=False,
+    )
+    created_timestamp: Mapped[datetime] = mapped_column(
         types.DateTime(timezone=True),
         index=True,
         nullable=False,
         default=datetime.utcnow,
     )
 
-    summit_events = relationship("SummitEvent", backref="user")
+    summit_events: Mapped[list["SummitEvent"]] = relationship(
+        "SummitEvent",
+        back_populates="user",
+        uselist=True,
+        default_factory=list,
+    )  # TODO: Set `lazy="raise"`
 
-    def set_password(self, password):
+    def set_password(self, password: str) -> None:
         self.password_hash = generate_password_hash(password)
 
-    def check_password(self, password):
+    def check_password(self, password: str) -> bool:
         return check_password_hash(self.password_hash, password)
 
 
-class Fell(Base):
-
+class Fell(Base, kw_only=True):
     __tablename__ = "fell"
 
-    id = Column(types.Integer(), primary_key=True)
-    name = Column(types.Enum(FellName), index=True, unique=True)
-    display = Column(types.String(50), unique=True)
-    height_rank = Column(
-        types.Integer(), unique=True
+    id: Mapped[int] = mapped_column(
+        types.Integer(),
+        primary_key=True,
+    )
+    name: Mapped[FellName] = mapped_column(
+        types.Enum(FellName),
+        index=True,
+        unique=True,
+    )
+    display: Mapped[str] = mapped_column(types.String(50), unique=True)
+    height_rank: Mapped[int] = mapped_column(
+        types.Integer(),
+        unique=True,
     )  # Used as some fells have the same height_m value
-    height_m = Column(types.Integer(), unique=False)
-    os_grid_reference = Column(types.String(8), unique=True)
-    book = Column(types.Enum(Book), unique=False)
-    rank_in_book = Column(types.Integer(), unique=False)
+    height_m: Mapped[int] = mapped_column(
+        types.Integer(),
+        unique=False,
+    )
+    os_grid_reference: Mapped[str] = mapped_column(
+        types.String(8),
+        unique=True,
+    )
+    book: Mapped[Book] = mapped_column(
+        types.Enum(Book),
+        unique=False,
+    )
+    rank_in_book: Mapped[int] = mapped_column(
+        types.Integer(),
+        unique=False,
+    )
 
-    summit_events = relationship("SummitEvent", backref="fell")
+    summit_events: Mapped[list["SummitEvent"]] = relationship(
+        "SummitEvent",
+        back_populates="fell",
+        uselist=True,
+        default_factory=list,
+    )  # TODO: Set `lazy="raise"`
 
 
-class SummitEvent(Base):
-
+class SummitEvent(Base, kw_only=True):
     __tablename__ = "summit_event"
 
-    user_id = Column(types.Integer(), ForeignKey("user.id"), primary_key=True)
-    fell_id = Column(types.Integer(), ForeignKey("fell.id"), primary_key=True)
-    summit_date = Column(
+    user_id: Mapped[int] = mapped_column(
+        types.Integer(),
+        ForeignKey("user.id"),
+        primary_key=True,
+    )
+    fell_id: Mapped[int] = mapped_column(
+        types.Integer(),
+        ForeignKey("fell.id"),
+        primary_key=True,
+    )
+    summit_date: Mapped[date] = mapped_column(
         types.Date(),
         nullable=False,
     )
-    created_timestamp = Column(
+    created_timestamp: Mapped[datetime] = mapped_column(
         types.DateTime(timezone=True),
         nullable=False,
         index=True,

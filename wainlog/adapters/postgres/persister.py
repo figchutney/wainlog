@@ -43,10 +43,14 @@ def get_all_fells(session: Session) -> List[types.Fell]:
 
 
 def get_fell_id_from_name(session: Session, fell_name: types.FellName) -> int:
-
-    return (
-        session.query(model.Fell.id).filter(fell_name == model.Fell.name).one()
-    )[0]
+    return cast(
+        int,
+        (
+            session.query(model.Fell.id)
+            .filter(model.Fell.name == fell_name)
+            .one()
+        )[0],
+    )
 
 
 def get_summit_events_for_user(
@@ -60,7 +64,7 @@ def get_summit_events_for_user(
             model.SummitEvent.summit_date,
         )
         .join(model.Fell.summit_events)
-        .filter(username == model.User.username)
+        .filter(model.User.username == username)
     ).all()
 
     return [
