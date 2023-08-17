@@ -13,17 +13,6 @@ from .convertors import fell_db_to_app
 #######
 
 
-def get_user_db_from_username(
-    session: Session,
-    username: str,
-) -> model.User | None:
-    return (
-        session.query(model.User)
-        .filter(model.User.username == username)
-        .one_or_none()
-    )
-
-
 def get_user_db_from_email(
     session: Session,
     email: str,

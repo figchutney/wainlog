@@ -11,7 +11,6 @@ from sqlalchemy.orm import (
     mapped_column,
     relationship,
 )
-from werkzeug.security import check_password_hash, generate_password_hash
 
 from ...core.types import Book, FellName
 
@@ -42,11 +41,6 @@ class User(UserMixin, Base, kw_only=True):
         unique=True,
         nullable=False,
     )
-    password_hash: Mapped[str] = mapped_column(
-        types.String(128),
-        nullable=False,
-        init=False,
-    )
     created_timestamp: Mapped[datetime] = mapped_column(
         types.DateTime,
         index=True,
@@ -62,17 +56,10 @@ class User(UserMixin, Base, kw_only=True):
         default_factory=list,
     )  # TODO: Set `lazy="raise"`
 
-    def set_password(self, password: str) -> None:
-        self.password_hash = generate_password_hash(password)
-
-    def check_password(self, password: str) -> bool:
-        return check_password_hash(self.password_hash, password)
-
 
 class Fell(Base, kw_only=True):
     __tablename__ = "fell"
 
-    id: Mapped[int] = mapped_column(
     id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),
         primary_key=True,
