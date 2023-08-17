@@ -50,7 +50,7 @@ class User(UserMixin, Base, kw_only=True):
 
     summit_events: Mapped[list["SummitEvent"]] = relationship(
         "SummitEvent",
-        back_populates="user",
+        backref="user",
         uselist=True,
         default_factory=list,
     )  # TODO: Set `lazy="raise"`
@@ -98,7 +98,7 @@ class Fell(Base, kw_only=True):
 
     summit_events: Mapped[list["SummitEvent"]] = relationship(
         "SummitEvent",
-        back_populates="fell",
+        backref="fell",
         uselist=True,
         default_factory=list,
     )  # TODO: Set `lazy="raise"`
