@@ -1,6 +1,7 @@
 alembic
 flask
 flask-login
+Flask-WTF
 gunicorn
 psycopg2-binary
 requests
