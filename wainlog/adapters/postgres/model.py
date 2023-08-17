@@ -48,10 +48,11 @@ class User(UserMixin, Base, kw_only=True):
         init=False,
     )
     created_timestamp: Mapped[datetime] = mapped_column(
-        types.DateTime(timezone=True),
+        types.DateTime,
         index=True,
         nullable=False,
-        default=datetime.utcnow,
+        default=None,
+        server_default=func.now(),
     )
 
     summit_events: Mapped[list["SummitEvent"]] = relationship(
@@ -131,8 +132,9 @@ class SummitEvent(Base, kw_only=True):
         nullable=False,
     )
     created_timestamp: Mapped[datetime] = mapped_column(
-        types.DateTime(timezone=True),
-        nullable=False,
+        types.DateTime,
         index=True,
-        default=datetime.utcnow,
+        nullable=False,
+        default=None,
+        server_default=func.now(),
     )
