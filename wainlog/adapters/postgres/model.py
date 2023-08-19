@@ -25,7 +25,7 @@ class User(UserMixin, Base, kw_only=True):
     id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),
         primary_key=True,
-        server_default=func.gen_random_uuid(),
+        server_default=func.uuid_generate_v4(),
         default=uuid.uuid4,
         init=False,
     )
@@ -63,7 +63,7 @@ class Fell(Base, kw_only=True):
     id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),
         primary_key=True,
-        server_default=func.gen_random_uuid(),
+        server_default=func.uuid_generate_v4(),
         default=uuid.uuid4,
     )
     name: Mapped[FellName] = mapped_column(

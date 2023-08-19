@@ -23,7 +23,7 @@ def upgrade() -> None:
         sa.Column(
             "id",
             sa.UUID(),
-            server_default=sa.text("gen_random_uuid()"),
+            server_default=sa.text("uuid_generate_v4()"),
             nullable=False,
         ),
         sa.Column(
@@ -279,7 +279,7 @@ def upgrade() -> None:
         sa.Column(
             "id",
             sa.UUID(),
-            server_default=sa.text("gen_random_uuid()"),
+            server_default=sa.text("uuid_generate_v4()"),
             nullable=False,
         ),
         sa.Column("username", sa.String(length=64), nullable=False),
