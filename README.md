@@ -1,8 +1,10 @@
 # `wainlog` ⛰
 
+👉 **Go have a play at https://wainlog-8drtz.ondigitalocean.app/**
+
 A simple place to keep track of which Wainright's you've climbed in the Lake District ⛰
 
-This app is currently a work in progress, and is not production ready (I've not written tests yet, or cleaned up some mucky typing). However, you can still run a local instance of the app nicely - see instructions below on getting set up 🤸‍♀️
+This app is not production ready yet (I've not written tests yet, or cleaned up some mucky typing). However, you can access a test deployment of it [here](https://wainlog-8drtz.ondigitalocean.app/) - hosted on Digital Ocean's App Platform - or run a local instance following the instructions below (though Google OAuth won't work locally) 🤸‍♀️
 
 https://user-images.githubusercontent.com/52138939/119268061-150ed600-bbe9-11eb-896b-9b4acd4a9b9e.mov
 
@@ -25,6 +27,8 @@ https://user-images.githubusercontent.com/52138939/119268061-150ed600-bbe9-11eb-
 ## 1 - Description
 
 `wainlog` allows you to keep track of which of which Wainright fells you've climbed in Lake District (incl. *when* you climbed each one). It also acts as a place to view general information about the fells (height, height rank, OS grid references etc.).
+
+User management is via Google OAuth.
 
 A focus has been kept on keeping the app clean and simple to use, with no unnecessary fells (hehe) and whistles.
 
@@ -68,6 +72,8 @@ Add the following to the file:
 ```json
 {   
   "DB_URL": "postgresql://localhost/wainlog",
+  "GOOGLE_OAUTH_CLIENT_ID": "",
+  "GOOGLE_OAUTH_CLIENT_SECRET": "",
   "SECRET_KEY": "this-is-a-bad-key"
 }
 ```
@@ -135,15 +141,13 @@ Whenever you push a new commit, the `CI` GitHub action (defined in `.github/work
 
 Pull requests can only be merged if the CI checks all pass.
 
-The repo will eventually be hooked up with Heroku, so when a merge is made to `main` branch, it triggers a build and deployment in Heroku (more below).
+The repo is hooked up with Digital Ocean's App Platform, so when a merge is made to `main` branch, it triggers a build and deployment in Digital Ocean (more below).
 
 ### 3.8 - Deployment
 
-`wainlog` will be deployed using Heroku on a free Dyno.
-
-Heroku will be hooked up with the GitHub repo so that merges to `main` trigger a build in Heroku, which will result in in a deployment if successful.
+`wainlog` is deployed using Digital Ocean's App Platform. For now, the DB is just their cheapy test one they provide by default for test apps.
 
 The deployment is configured with two files in the root directory of the project:
 
-- `Procfile` (runs the app with `gunicorn`)
-- `runtime.txt` (tells Heroku to use Python 3.11)
+- `gunicorn_config.py`
+- `runtime.txt` (tells Digital Ocean to use Python 3.11)
