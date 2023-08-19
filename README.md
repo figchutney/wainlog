@@ -8,7 +8,7 @@ A simple place to keep track of which Wainright's you've climbed in the Lake Dis
 
 This app is not production ready yet (I've not written tests yet, or cleaned up some mucky typing). However, you can access a test deployment of it [here](https://wainlog-8drtz.ondigitalocean.app/) - hosted on Digital Ocean's App Platform - or run a local instance following the instructions below (though Google OAuth won't work locally) 🤸‍♀️
 
-![image](https://github.com/figchutney/wainlog/assets/52138939/639f85c1-0faa-4f4e-bd4f-82eb37aff4d0)
+https://github.com/figchutney/wainlog/assets/52138939/8323aa87-42a2-4e5d-836f-6cb7e2602bd1
 
 - [`wainlog` ⛰](#wainlog-)
   - [1 - Description](#1---description)
