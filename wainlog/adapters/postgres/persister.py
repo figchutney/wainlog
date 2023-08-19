@@ -65,10 +65,10 @@ def get_summit_events_for_user(
     return [
         types.SummitEvent(
             username=event.username,
-            fell_name=event.name,
+            fell_name=fell_name,
             summit_date=event.summit_date,
         )
-        for event in summit_events
+        for event, fell_name in summit_events
     ]
 
 
