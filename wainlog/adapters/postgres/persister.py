@@ -56,7 +56,7 @@ def get_summit_events_for_user(
     username: str,
 ) -> list[types.SummitEvent]:
     summit_events = (
-        session.query(model.SummitEvent, model.FellName)
+        session.query(model.SummitEvent, model.Fell.name)
         .join(model.User, model.User.id == model.SummitEvent.user_id)
         .join(model.Fell, model.Fell.id == model.SummitEvent.fell_id)
         .filter(model.User.username == username)
