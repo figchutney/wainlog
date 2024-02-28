@@ -1,6 +1,6 @@
 # `wainlog` ⛰
 
-![main](https://github.com/figchutney/wainlog/actions/workflows/main.yml/badge.svg)
+![main](https://github.com/figchutney/wainlog/actions/workflows/main.yml/badge.svg) (if you get a server error, try re-loading - Digital Ocean seems to be playing games with me)
 
 👉 **Go have a play at https://wainlog-8drtz.ondigitalocean.app/**
 
