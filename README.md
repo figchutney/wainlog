@@ -1,8 +1,8 @@
 # `wainlog` ⛰
 
-![main](https://github.com/figchutney/wainlog/actions/workflows/main.yml/badge.svg) (if you get a server error, try re-loading - Digital Ocean seems to be playing games with me)
+![main](https://github.com/figchutney/wainlog/actions/workflows/main.yml/badge.svg)
 
-👉 **Go have a play at https://wainlog-8drtz.ondigitalocean.app/**
+👉 **Go have a play at https://wainlog-8drtz.ondigitalocean.app/** _(if you get a server error, try re-loading - Digital Ocean seems to be playing games with me)_
 
 A simple place to keep track of which Wainright's you've climbed in the Lake District ⛰
 
